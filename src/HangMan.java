@@ -15,8 +15,8 @@ public class HangMan extends Game{
     }
 
     public void playGame() {
-
-        String filePath = "/home/kawa/IdeaProjects/BroCdoe/src/words.txt";
+        currentScore = 0;
+        String filePath = "hangmanWords.txt";
         ArrayList<String> words = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
@@ -30,11 +30,15 @@ public class HangMan extends Game{
             System.out.println("I/O exception");
         }
 
+        if (words.isEmpty()) {
+            System.out.println("Could not load words file. Game cannot start.");
+            return;
+        }
+
         Random random = new Random();
 
         String word = words.get(random.nextInt(words.size()));
 
-        Scanner scanner = new Scanner(System.in);
         ArrayList<Character> wordState = new ArrayList<>();
         int wrongGuesses = 0;
 
