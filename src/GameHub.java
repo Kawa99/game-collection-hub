@@ -12,6 +12,8 @@ public class GameHub {
         games = new ArrayList<>();
         scanner = new Scanner(System.in);
         addGame(new RockPaperScissors(scanner));
+        addGame(new NumberGuessingGame(scanner));
+        addGame(new HangMan(scanner));
     }
 
     public static void main(String[] args) {
@@ -50,14 +52,14 @@ public class GameHub {
     }
 
     private void displayMainMenu() {
-        System.out.println("==== GAME HUB MAIN MENU ====");
+        System.out.println("\n==== GAME HUB MAIN MENU ====");
         System.out.println("1. Play Games");
         System.out.println("2. Exit");
         System.out.print("Enter your choice: ");
     }
 
     private void displayGameMenu() {
-        System.out.println("==== SELECT A GAME ====");
+        System.out.println("\n==== SELECT A GAME ====");
         for (int i = 0; i < games.size(); i++) {
             System.out.println((i + 1) + ". " + games.get(i).getGameName());
         }

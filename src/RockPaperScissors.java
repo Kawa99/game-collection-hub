@@ -16,7 +16,7 @@ public class RockPaperScissors extends Game {
         int playerChoice = 0;
         int computerChoice;
 
-        System.out.println("*******************************");
+        System.out.println("\n*******************************");
         System.out.println("Welcome to Rock Paper Scissors!");
         System.out.println("*******************************");
 
