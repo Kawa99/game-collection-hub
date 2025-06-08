@@ -5,7 +5,7 @@ import java.util.Scanner;
 public class GameHub {
     private ArrayList<Game> games;
     private Scanner scanner;
-    private static final int MAIN_MENU_OPTIONS = 2;
+    private static final int MAIN_MENU_OPTIONS = 3;
     private static final int MINIMUM_CHOICE_NUMBER = 1;
 
     public GameHub() {
@@ -44,6 +44,19 @@ public class GameHub {
                     }
                     break;
                 case 2:
+                    if (games.isEmpty()) {
+                        System.out.println("No games available yet.\n");
+                    } else {
+                        displayGameMenu();
+                        int gameChoice = getUserChoice(1, games.size());
+                        try {
+                            displayGameDescription(gameChoice - 1);
+                        } catch (IndexOutOfBoundsException e) {
+                            System.out.println("Error: Invalid selection." + e.getMessage());
+                        }
+                    break;
+                    }
+                case 3:
                     isRunning = false;
                     System.out.println("Thanks for playing! Goodbye!");
                     break;
@@ -54,7 +67,8 @@ public class GameHub {
     private void displayMainMenu() {
         System.out.println("\n==== GAME HUB MAIN MENU ====");
         System.out.println("1. Play Games");
-        System.out.println("2. Exit");
+        System.out.println("2. View Rules");
+        System.out.println("3. Exit");
         System.out.print("Enter your choice: ");
     }
 
@@ -98,5 +112,13 @@ public class GameHub {
 
     private void addGame(Game game) {
         games.add(game);
+    }
+
+    private void displayGameDescription(int gameIndex) {
+        Game game = games.get(gameIndex);
+        System.out.println("\n==== GAME RULES: " + game.getGameName() + " ====\n");
+        System.out.println(game.getGameDescription());
+        System.out.println("\nPress Enter to return to the menu...");
+        scanner.nextLine(); // Wait for user input before continuing
     }
 }
