@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class GameHub {
@@ -38,8 +37,10 @@ public class GameHub {
                             startSelectedGame(gameChoice - 1);
                         } catch (IndexOutOfBoundsException e) {
                             System.out.println("Error: Invalid selection.");
+                            ErrorLogger.logError("Invalid game index selected", e);
                         } catch (Exception e) {
                             System.out.println("Error: Game crashed unexpectedly. Returning to menu." + e.getMessage());
+                            ErrorLogger.logError("Game crashed unexpectedly", e);
                         }
                     }
                     break;
@@ -88,26 +89,7 @@ public class GameHub {
     }
 
     public int getUserChoice(int minOption, int maxOption) {
-        while (true) {
-            try {
-                int choice = scanner.nextInt();
-                scanner.nextLine();
-
-                if (choice >= minOption && choice <= maxOption) {
-                    return choice;
-                } else if (minOption == maxOption) {
-                    System.out.printf("Invalid choice. \nThere is only %d game in the list. \nPlease enter %d: ", minOption, maxOption);
-                } else {
-                    System.out.printf("Invalid choice. \nPlease enter a number between %d and %d: ",
-                            minOption, maxOption);
-                }
-
-            } catch (InputMismatchException e) {
-                scanner.nextLine();
-                System.out.printf("Invalid input. \nPlease enter a number between %d and %d: ",
-                        minOption, maxOption);
-            }
-        }
+        return InputValidator.validMenueChoice(scanner, minOption, maxOption);
     }
 
     private void addGame(Game game) {
