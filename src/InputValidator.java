@@ -16,7 +16,7 @@ public class InputValidator {
         }
     }
 
-    public static int validMenueChoice(Scanner scanner, int min, int max) {
+    public static int validateMenuChoice(Scanner scanner, int min, int max) {
         while (true) {
             int input = validateIntegerInput(scanner);
             if (input >= min && input <= max) {

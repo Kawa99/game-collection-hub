@@ -6,6 +6,9 @@ public class GameHub {
     private Scanner scanner;
     private static final int MAIN_MENU_OPTIONS = 3;
     private static final int MINIMUM_CHOICE_NUMBER = 1;
+    private PlayerManager playerManager;
+    private Player currentPlayer;
+
 
     public GameHub() {
         games = new ArrayList<>();
@@ -13,6 +16,7 @@ public class GameHub {
         addGame(new RockPaperScissors(scanner));
         addGame(new NumberGuessingGame(scanner));
         addGame(new HangMan(scanner));
+        playerManager = new PlayerManager();
     }
 
     public static void main(String[] args) {
@@ -21,6 +25,21 @@ public class GameHub {
     }
 
     private void run() {
+        System.out.println("Welcome to GameHub!");
+        System.out.println("1. Create New Player");
+        System.out.println("2. Select Existing Player");
+        System.out.print("\nEnter your choice: ");
+        int profileChoice = InputValidator.validateMenuChoice(scanner, 1, 2);
+
+        if (profileChoice == 1) {
+            currentPlayer = playerManager.createNewPlayer(scanner);
+        } else {
+            currentPlayer = playerManager.selectPlayer(scanner);
+            if (currentPlayer == null) {
+                System.out.println("No players available. Creating new player...");
+                currentPlayer = playerManager.createNewPlayer(scanner);
+            }
+        }
         boolean isRunning = true;
         while (isRunning) {
             displayMainMenu();
@@ -66,7 +85,8 @@ public class GameHub {
     }
 
     private void displayMainMenu() {
-        System.out.println("\n==== GAME HUB MAIN MENU ====");
+        System.out.print("\n==== GAME HUB MAIN MENU ====");
+        System.out.printf("     Username: %s\n", currentPlayer.getUsername());
         System.out.println("1. Play Games");
         System.out.println("2. View Rules");
         System.out.println("3. Exit");
@@ -74,7 +94,8 @@ public class GameHub {
     }
 
     private void displayGameMenu() {
-        System.out.println("\n==== SELECT A GAME ====");
+        System.out.print("\n==== SELECT A GAME ====");
+        System.out.printf("     Username: %s\n", currentPlayer.getUsername());
         for (int i = 0; i < games.size(); i++) {
             System.out.println((i + 1) + ". " + games.get(i).getGameName());
         }
@@ -89,7 +110,7 @@ public class GameHub {
     }
 
     public int getUserChoice(int minOption, int maxOption) {
-        return InputValidator.validMenueChoice(scanner, minOption, maxOption);
+        return InputValidator.validateMenuChoice(scanner, minOption, maxOption);
     }
 
     private void addGame(Game game) {
@@ -101,6 +122,6 @@ public class GameHub {
         System.out.println("\n==== GAME RULES: " + game.getGameName() + " ====\n");
         System.out.println(game.getGameDescription());
         System.out.println("\nPress Enter to return to the menu...");
-        scanner.nextLine(); // Wait for user input before continuing
+        scanner.nextLine();
     }
 }
